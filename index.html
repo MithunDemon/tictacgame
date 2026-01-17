@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tic-tac-game</title>
+
+    <style>
+
+        *
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body
+{
+    background-color: #548687;
+    text-align: center;
+
+}
+
+
+h1
+{
+    padding-bottom: 20px;
+}
+
+.container
+{
+    height: 70vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 1.5vmin;
+}
+
+.game
+{
+    height: 60vmin;
+    width: 60vmin;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 1.5vmin;
+}
+
+.box
+{
+    height: 18vmin;
+    width: 18vmin;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.3);
+    font-size: 8vmin;
+    color: #b0413e;
+    background-color: #ffffc7;
+}
+
+#reset
+{
+    padding: 10px 40px 10px 40px ;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: aqua;
+    cursor: pointer;
+}
+
+#reset:hover{
+    background-color: #b0413e;
+    color: black;
+    cursor: pointer;
+}
+
+#new-btn
+{
+     padding: 10px 40px 10px 40px ;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: aqua;
+    cursor: pointer;
+    
+    
+    
+
+}
+
+#msg
+{
+    color: #ffffc7;
+    font-size: 5vmin;
+}
+
+
+.msg-con
+{
+    
+    height: 100vmin;
+    display: flex;
+    
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+
+.hide
+{
+    display: none;
+}
+
+    </style>
+
+
+    <script>
+
+
+
+        let boxes = document.querySelectorAll(".box");
+let resetGame = document.querySelector("#reset");
+
+//let newGame = document.querySelector("#reset");
+let newbtn = document.querySelector("#new-btn");
+let msgcon  = document.querySelector(".msg-con");
+
+let msg = document.querySelector("#msg");
+
+let turnO = true;
+
+const win = [
+    [0,1,2],
+    [0,3,6],
+    [0,4,8],
+    [1,4,7],
+    [2,5,8],
+    [2,4,6],
+    [3,4,5],
+    [6,7,8],
+];
+
+const reset = () =>
+{
+    turnO = true;
+    enableboxes();
+    msgcon.classList.add("hide");
+
+    
+};
+
+
+
+boxes.forEach((box) => {
+
+    box.addEventListener("click",()=>{
+    console.log("box was clicked");
+
+    if(turnO)
+    {
+        box.innerText = "O";
+        turnO = false;
+    }
+    else{
+
+         box.innerText = "X";
+        turnO = true;
+    }
+    box.disabled = true;
+
+    checkWinner();
+});
+
+
+});
+
+
+const disableboxes = () =>
+{
+    for(let box  of boxes)
+    {
+        box.disabled = true;
+    }
+};
+
+const enableboxes = () =>
+{
+    for(let box  of boxes)
+    {
+        box.disabled = true;
+        box.innerText = "";
+    }
+};
+
+
+const showWinner = (winner) =>
+{
+    msg.innerText = `congratulations, Winner is ${winner}`;
+    msgcon.classList.remove("hide");
+    disableboxes();
+};
+
+const checkWinner = () =>
+{
+    for(let patter of win)
+    {
+       
+        let pos1val = boxes[patter[0]].innerText;
+        let pos2val = boxes[patter[1]].innerText;
+        let pos3val = boxes[patter[2]].innerText;
+
+        if(pos1val != "" && pos2val != "" && pos3val != "")
+        {
+            if(pos1val === pos2val && pos2val === pos3val)
+            {
+                console.log("winner",pos1val);
+
+                showWinner(pos1val);
+            }
+        }
+ 
+    }
+
+
+
+
+
+};
+
+
+
+newbtn.addEventListener("click",reset);
+resetGame.addEventListener("click",reset);
+
+
+    </script>
+</head>
+<body>
+
+    <div class="msg-con  hide" >
+        <p id="msg">Winner</p>
+        <button id="new-btn">new game</button>
+        
+    </div>
+
+
+    <main>
+        <h1>Tic Tac Game</h1>
+
+        <div class="container">
+        <div class="game">
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+        <button class="box"></button>
+
+        </div>
+        </div>
+
+        <button id="reset">Reset game</button>
+        
+        
+        
+    </main>
+
+    
+    
+
+
+
+    
+</body>
+</html>
